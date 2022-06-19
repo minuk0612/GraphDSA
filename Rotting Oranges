@@ -1,0 +1,50 @@
+class Solution {
+public:
+    
+    int orangesRotting(vector<vector<int>>& grid) {
+      
+        int count=0;
+         int n=grid.size(),m=grid[0].size();
+        queue<pair<int,pair<int,int>>> q;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++)
+                if(grid[i][j]==2)
+                    q.push(make_pair(0,make_pair(i,j)));
+        }
+        int maxi=0;
+        while(!q.empty()){
+           
+            auto x=q.front();
+            int i=x.second.first;
+            int j=x.second.second;
+           count=x.first;
+          //  cout<<i<<"->"<<j<<"-->"<<x.first<<endl;
+            q.pop();
+            
+           
+                // cout<<"in"<<endl;
+                if(i+1<n&&grid[i+1][j]==1)
+                    q.push(make_pair(count+1,make_pair(i+1,j)));
+                if(i-1>=0&&grid[i-1][j]==1)
+                    q.push(make_pair(count+1,make_pair(i-1,j)));
+                if(j+1<m&&grid[i][j+1]==1)
+                    q.push(make_pair(count+1,make_pair(i,j+1)));
+                if(j-1>=0&&grid[i][j-1]==1)
+                    q.push(make_pair(count+1,make_pair(i,j-1)));
+            
+            
+            if(grid[i][j]!=2){
+             grid[i][j]=2; 
+                maxi=max(maxi,x.first);
+             }
+          
+        }
+      for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++)
+                if(grid[i][j]==1)
+                   return -1;
+        }
+        
+        return maxi;
+    }
+};
